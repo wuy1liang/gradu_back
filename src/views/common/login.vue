@@ -9,8 +9,8 @@
         <div class="login-main">
           <h3 class="login-title">管理员登录</h3>
           <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" status-icon>
-            <el-form-item prop="userName">
-              <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
+            <el-form-item prop="loginname">
+              <el-input v-model="dataForm.loginname" placeholder="帐号"></el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
@@ -42,13 +42,13 @@
     data () {
       return {
         dataForm: {
-          userName: '',
+          loginname: '',
           password: '',
           uuid: '',
           captcha: ''
         },
         dataRule: {
-          userName: [
+          loginname: [
             { required: true, message: '帐号不能为空', trigger: 'blur' }
           ],
           password: [
@@ -70,21 +70,22 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
-              url: this.$http.adornUrl('/sys/login'),
+              url: this.$http.adornUrl('/user/admin/login'),
               method: 'post',
               data: this.$http.adornData({
-                'username': this.dataForm.userName,
+                'loginname': this.dataForm.loginname,
                 'password': this.dataForm.password,
                 'uuid': this.dataForm.uuid,
                 'captcha': this.dataForm.captcha
               })
             }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$cookie.set('token', data.token)
+              console.log(data)
+              if (data && data.code === 20000) {
+                this.$cookie.set('token', data.data)
                 this.$router.replace({ name: 'home' })
               } else {
                 this.getCaptcha()
-                this.$message.error(data.msg)
+                this.$message.error(data.message)
               }
             })
           }
