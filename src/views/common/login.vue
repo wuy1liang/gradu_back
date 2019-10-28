@@ -82,6 +82,7 @@
               console.log(data)
               if (data && data.code === 20000) {
                 this.$cookie.set('token', data.data)
+                this.$message.success(data.message)
                 this.$router.replace({ name: 'home' })
               } else {
                 this.getCaptcha()

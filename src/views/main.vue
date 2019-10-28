@@ -58,7 +58,7 @@
       }
     },
     created () {
-      this.getUserInfo()
+      // this.getUserInfo()
     },
     mounted () {
       this.resetDocumentClientHeight()
@@ -78,7 +78,7 @@
           method: 'get',
           params: this.$http.adornParams()
         }).then(({data}) => {
-          if (data && data.code === 0) {
+          if (data && data.code === 20000) {
             this.loading = false
             this.userId = data.user.userId
             this.userName = data.user.username
