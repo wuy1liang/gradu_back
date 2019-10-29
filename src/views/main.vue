@@ -58,7 +58,7 @@
       }
     },
     created () {
-      // this.getUserInfo()
+      this.getUserInfo()
     },
     mounted () {
       this.resetDocumentClientHeight()
@@ -74,14 +74,14 @@
       // 获取当前管理员信息
       getUserInfo () {
         this.$http({
-          url: this.$http.adornUrl('/sys/user/info'),
+          url: this.$http.adornUrl('/user/admin/info'),
           method: 'get',
           params: this.$http.adornParams()
         }).then(({data}) => {
           if (data && data.code === 20000) {
             this.loading = false
-            this.userId = data.user.userId
-            this.userName = data.user.username
+            this.userId = data.data.id
+            this.userName = data.data.loginname
           }
         })
       }

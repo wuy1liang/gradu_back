@@ -102,7 +102,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/role/list'),
+          url: this.$http.adornUrl('/user/sys/role/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -110,7 +110,7 @@
             'roleName': this.dataForm.roleName
           })
         }).then(({data}) => {
-          if (data && data.code === 0) {
+          if (data && data.code === 20000) {
             this.dataList = data.page.list
             this.totalPage = data.page.totalCount
           } else {
@@ -167,7 +167,7 @@
                 }
               })
             } else {
-              this.$message.error(data.msg)
+              this.$message.error(data.message)
             }
           })
         }).catch(() => {})

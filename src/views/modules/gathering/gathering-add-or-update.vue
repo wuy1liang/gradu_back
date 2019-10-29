@@ -129,11 +129,11 @@
       init (id) {
         this.dataForm.id = id || 0
         this.$http({
-          url: this.$http.adornUrl('/user/sys/menu/select'),
+          url: this.$http.adornUrl('/sys/menu/select'),
           method: 'get',
           params: this.$http.adornParams()
         }).then(({data}) => {
-          this.menuList = treeDataTranslate(data.data, 'menuId')
+          this.menuList = treeDataTranslate(data.menuList, 'menuId')
         }).then(() => {
           this.visible = true
           this.$nextTick(() => {
@@ -146,18 +146,18 @@
           } else {
             // 修改
             this.$http({
-              url: this.$http.adornUrl(`/user/sys/menu/info/${this.dataForm.id}`),
+              url: this.$http.adornUrl(`/sys/menu/info/${this.dataForm.id}`),
               method: 'get',
               params: this.$http.adornParams()
             }).then(({data}) => {
-              this.dataForm.id = data.data.menuId
-              this.dataForm.type = data.data.type
-              this.dataForm.name = data.data.name
-              this.dataForm.parentId = data.data.parentId
-              this.dataForm.url = data.data.url
-              this.dataForm.perms = data.data.perms
-              this.dataForm.orderNum = data.data.orderNum
-              this.dataForm.icon = data.data.icon
+              this.dataForm.id = data.menu.menuId
+              this.dataForm.type = data.menu.type
+              this.dataForm.name = data.menu.name
+              this.dataForm.parentId = data.menu.parentId
+              this.dataForm.url = data.menu.url
+              this.dataForm.perms = data.menu.perms
+              this.dataForm.orderNum = data.menu.orderNum
+              this.dataForm.icon = data.menu.icon
               this.menuListTreeSetCurrentNode()
             })
           }
@@ -182,7 +182,7 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
-              url: this.$http.adornUrl(`/user/sys/menu/${!this.dataForm.id ? 'save' : 'update'}`),
+              url: this.$http.adornUrl(`/sys/menu/${!this.dataForm.id ? 'save' : 'update'}`),
               method: 'post',
               data: this.$http.adornData({
                 'menuId': this.dataForm.id || undefined,
@@ -195,7 +195,7 @@
                 'icon': this.dataForm.icon
               })
             }).then(({data}) => {
-              if (data && data.code === 20000) {
+              if (data && data.code === 0) {
                 this.$message({
                   message: '操作成功',
                   type: 'success',
